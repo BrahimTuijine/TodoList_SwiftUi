@@ -16,10 +16,16 @@ struct ListRowView: View {
             Image(systemName: "checkmark.circle")
                 .foregroundColor(isCompleted ? .green : .red)
             Text(title)
+                .font(.title2)
+                .padding(.vertical, 8)
         }
     }
 }
 
 #Preview {
-    ListRowView(title: "test", isCompleted: true)
+    Group {
+        ListRowView(title: "hello", isCompleted: true)
+        ListRowView(title: "this is new title", isCompleted: true)
+    }
+    .previewLayout(.sizeThatFits)
 }
