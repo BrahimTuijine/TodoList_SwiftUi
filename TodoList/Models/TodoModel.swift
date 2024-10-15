@@ -12,3 +12,4 @@ struct TodoModel : Identifiable {
     let title: String
     var isCompleted: Bool = false
 }
+
