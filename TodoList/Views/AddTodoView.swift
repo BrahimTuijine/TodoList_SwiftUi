@@ -8,11 +8,40 @@
 import SwiftUI
 
 struct AddTodoView: View {
+        
+    @State var todoTitle: String = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            TextField("Type something here...", text: $todoTitle)
+                .padding()
+                .frame(height: 55)
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(10)
+                
+            
+            
+            Button(action: {
+                
+            }, label: {
+                Text("SAVE")
+                    .font(.headline)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .background(.blue)
+                    .cornerRadius(10)
+                
+            })
+                
+        }
+        .padding()
+        .navigationTitle("Add Todo 🖋️")
     }
 }
 
 #Preview {
-    AddTodoView()
+    NavigationView {
+        AddTodoView()
+    }
 }
