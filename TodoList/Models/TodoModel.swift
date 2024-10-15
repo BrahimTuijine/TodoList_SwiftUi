@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct TodoModel : Identifiable {
+    let id : String = UUID().uuidString
+    let title: String
+    var isCompleted: Bool = false
+}
+
