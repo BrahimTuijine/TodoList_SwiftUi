@@ -15,12 +15,24 @@ struct ListView: View {
         TodoModel(title: "this is Third !")
     ]
     
+    func deleteTodo(indexSet: IndexSet) -> Void {
+        items.remove(atOffsets: indexSet)
+    }
+    
+    func moveTodo(from: IndexSet, to : Int) -> Void {
+        items.move(fromOffsets: from, toOffset: to)
+    }
+    
     var body: some View {
-        List(items) {
+        List {
+            ForEach(items) {
+                ListRowView(title: $0.title, isCompleted: $0.isCompleted)
+            }
+            .onDelete(perform: deleteTodo)
+            .onMove(perform: moveTodo)
             
-            ListRowView(title: $0.title, isCompleted: $0.isCompleted)
-            
-        }.listStyle(PlainListStyle())
+        }
+        .listStyle(PlainListStyle())
         .navigationTitle("Todo List 📝")
         .navigationBarItems(
             leading:  EditButton(),
