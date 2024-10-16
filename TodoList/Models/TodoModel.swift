@@ -8,8 +8,18 @@
 import Foundation
 
 struct TodoModel : Identifiable {
-    let id : String = UUID().uuidString
+    let id : String
     let title: String
-    var isCompleted: Bool = false
+    let isCompleted: Bool
+    
+    init(id : String = UUID().uuidString, title: String, isCompleted: Bool = false ) {
+        self.title = title
+        self.isCompleted = isCompleted
+        self.id = id
+    }
+    
+    func updateCompletetion() -> TodoModel {
+        return TodoModel(id: id, title: title, isCompleted: !isCompleted)
+    }
 }
 
