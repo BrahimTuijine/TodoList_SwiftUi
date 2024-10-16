@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct AddTodoView: View {
+    
+    @EnvironmentObject var todoViewModel: TodoViewModel
+    @Environment(\.presentationMode) var presentationMode
         
-    @State var todoTitle: String = ""
+    @State private var  todoTitle: String = ""
+    
+    @State private var  showAlert: Bool = false
+    
+    func titleIsValid() -> Bool {
+        return todoTitle.count > 3
+    }
     
     var body: some View {
         ScrollView {
@@ -18,10 +27,15 @@ struct AddTodoView: View {
                 .frame(height: 55)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
-                
             
             
             Button(action: {
+                if titleIsValid() {
+                    todoViewModel.addTodo(todo: TodoModel(title: todoTitle))
+                    presentationMode.wrappedValue.dismiss()
+                }else {
+                    showAlert = true
+                }
                 
             }, label: {
                 Text("SAVE")
@@ -32,8 +46,16 @@ struct AddTodoView: View {
                     .background(.blue)
                     .cornerRadius(10)
                 
-            })
+            }).alert(isPresented: $showAlert) {
+                Alert(title: Text("your title is not valid"))
+            }
                 
+               // Button("ok" , role: .cancel ) {
+                    // presentationMode.wrappedValue.dismiss()
+                    // showAlert = false
+                //}
+            
+            
         }
         .padding()
         .navigationTitle("Add Todo 🖋️")
@@ -42,6 +64,6 @@ struct AddTodoView: View {
 
 #Preview {
     NavigationView {
-        AddTodoView()
+       AddTodoView()
     }
 }

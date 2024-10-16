@@ -9,27 +9,20 @@ import SwiftUI
 
 struct ListView: View {
     
-    @State var items : [TodoModel] = [
-        TodoModel(title: "This is the first item !", isCompleted: true),
-        TodoModel(title: "this is the second !"),
-        TodoModel(title: "this is Third !")
-    ]
-    
-    func deleteTodo(indexSet: IndexSet) -> Void {
-        items.remove(atOffsets: indexSet)
-    }
-    
-    func moveTodo(from: IndexSet, to : Int) -> Void {
-        items.move(fromOffsets: from, toOffset: to)
-    }
+    @EnvironmentObject var todoViewModel: TodoViewModel
     
     var body: some View {
         List {
-            ForEach(items) {
-                ListRowView(title: $0.title, isCompleted: $0.isCompleted)
+            ForEach(todoViewModel.items) { item in
+                ListRowView(title: item.title, isCompleted: item.isCompleted)
+                    .onTapGesture {
+                        withAnimation(.linear) {
+                            todoViewModel.updateStatus(todo: item)
+                        }
+                    }
             }
-            .onDelete(perform: deleteTodo)
-            .onMove(perform: moveTodo)
+            .onDelete(perform: todoViewModel.deleteTodo)
+            .onMove(perform: todoViewModel.moveTodo)
             
         }
         .listStyle(PlainListStyle())
@@ -38,6 +31,7 @@ struct ListView: View {
             leading:  EditButton(),
             trailing: NavigationLink("Add", destination: AddTodoView())
         )
+        
     }
     
 }
@@ -45,7 +39,7 @@ struct ListView: View {
 #Preview {
     NavigationView {
         ListView()
-    }
+    }.environmentObject(TodoViewModel())
 }
 
 
