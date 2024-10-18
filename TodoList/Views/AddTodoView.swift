@@ -43,19 +43,12 @@ struct AddTodoView: View {
                     .frame(height: 55)
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
-                    .background(.blue)
+                    .background(Color.accentColor)
                     .cornerRadius(10)
                 
             }).alert(isPresented: $showAlert) {
                 Alert(title: Text("your title is not valid"))
             }
-                
-               // Button("ok" , role: .cancel ) {
-                    // presentationMode.wrappedValue.dismiss()
-                    // showAlert = false
-                //}
-            
-            
         }
         .padding()
         .navigationTitle("Add Todo 🖋️")

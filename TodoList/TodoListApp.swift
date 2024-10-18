@@ -15,6 +15,8 @@ struct TodoListApp: App {
             NavigationView {
                 ListView()
             }
+            .navigationViewStyle(.stack)
+            .preferredColorScheme(.dark)
             .environmentObject(todoViewModel)
         }
     }
