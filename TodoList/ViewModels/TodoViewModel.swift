@@ -8,11 +8,17 @@
 import Foundation
 
 class TodoViewModel : ObservableObject {
-    @Published var items : [TodoModel] = [
-        TodoModel(title: "This is the first item !", isCompleted: true),
-        TodoModel(title: "this is the second !"),
-        TodoModel(title: "this is Third !")
-    ]
+    let todosKey : String = "todoKey"
+    
+    @Published var items : [TodoModel] = [] {
+        didSet {
+            saveTodos()
+        }
+    }
+    
+    init() {
+        getTodos()
+    }
     
     func deleteTodo(indexSet: IndexSet) -> Void {
         items.remove(atOffsets: indexSet)
@@ -29,9 +35,22 @@ class TodoViewModel : ObservableObject {
     func updateStatus(todo: TodoModel) -> Void {
         if let index = items.firstIndex(where: { $0.id == todo.id }){
             items[index] = todo.updateCompletetion()
-       }
+        }
+    }
+    
+    func saveTodos() -> Void {
+        if let encodedTodos = try? JSONEncoder().encode(items) {
+            UserDefaults.standard.setValue(encodedTodos, forKey: todosKey)
+        }
+    }
+    
+    func getTodos() -> Void {
+        guard
+            let encodedTodos = UserDefaults.standard.value(forKey: todosKey),
+            let decodedTodos = try? JSONDecoder().decode([TodoModel].self, from: encodedTodos as! Data  )
+        else { return }
         
-        
+        items = decodedTodos
     }
     
 }
