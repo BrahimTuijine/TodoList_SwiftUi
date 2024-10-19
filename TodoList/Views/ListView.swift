@@ -14,10 +14,7 @@ struct ListView: View {
     var body: some View {
         Group {
             if todoViewModel.items.isEmpty {
-                ContentUnavailableView(
-                   "Todo list empty",
-                   systemImage: "star",
-                   description: Text("Add new item to todo list"))
+                NoTodosView().transition(AnyTransition.opacity.animation(.easeIn))
             } else {
                 List {
                     ForEach(todoViewModel.items) { item in
